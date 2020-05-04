@@ -14,7 +14,13 @@ class PangoroTypeDescription(
      * Retrieve the given argument, casting it to `T` automatically
      */
     inline operator fun <reified T> get(str: String): T {
-        // TODO throw a nicer exception if the cast cannot happen
-        return arguments.getValue(str) as T
+        val value = arguments.getOrElse(str) {
+            throw PangoroException("Key '$str' does not exist in the stored arguments")
+        }
+        if (value is T) {
+            return value // Auto-cast by Kotlin
+        } else {
+            throw PangoroException("Expected $str to be of type ${T::class.qualifiedName}, but it is actually of type ${value::class.qualifiedName}")
+        }
     }
 }

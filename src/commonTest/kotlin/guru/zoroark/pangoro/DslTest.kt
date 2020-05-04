@@ -54,4 +54,61 @@ class DslTest {
             ), ast
         )
     }
+
+    @Test
+    fun cannot_declare_same_type_twice() {
+        val token = tokenType()
+        assertFailsWith<PangoroException> {
+            pangoro {
+                NumberNode {
+                    expect(token)
+                }
+                NumberNode {
+                    error("Should not be called")
+                }
+            }
+        }.apply {
+            val msg = message
+            assertNotNull(msg)
+            assertTrue(msg.contains("NumberNode") && msg.contains("already"))
+        }
+    }
+
+    @Test
+    fun cannot_declare_root_twice() {
+        val token = tokenType()
+        assertFailsWith<PangoroException> {
+            pangoro {
+                AdditionNode root {
+                    expect(token)
+                }
+                NumberNode root {
+                    expect(token)
+                }
+            }
+        }.apply {
+            val msg = message
+            assertNotNull(msg)
+            assertTrue(msg.contains("root") && msg.contains("already"))
+        }
+    }
+
+    @Test
+    fun fail_if_root_not_declared() {
+        val token = tokenType()
+        assertFailsWith<PangoroException> {
+            pangoro {
+                AdditionNode {
+                    expect(token)
+                }
+                NumberNode {
+                    expect(token)
+                }
+            }
+        }.apply {
+            val msg = message
+            assertNotNull(msg)
+            assertTrue(msg.contains("root") && msg.contains("never"))
+        }
+    }
 }
