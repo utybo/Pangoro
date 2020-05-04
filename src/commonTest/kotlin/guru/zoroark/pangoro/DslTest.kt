@@ -10,7 +10,7 @@ import kotlin.test.*
 class DslTest {
 
     data class NumberNode(val value: String) : PangoroNode {
-        companion object : PangoroNodeDeclaration<NumberNode> {
+        companion object : PangoroNodeDeclaration<NumberNode> by reflective() {
             override fun make(args: PangoroTypeDescription): NumberNode =
                 NumberNode(args["value"])
         }

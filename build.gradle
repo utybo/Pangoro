@@ -24,6 +24,7 @@ kotlin {
             dependencies {
                 implementation kotlin('stdlib')
                 api 'guru.zoroark.lixy:lixy:5313645728'
+                implementation kotlin("reflect")
             }
         }
         commonTest {
