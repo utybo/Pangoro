@@ -14,7 +14,8 @@ import guru.zoroark.lixy.LixyTokenType
  *
  * You could define a "string value" node with three expectations:
  *
- * - For the first `"`, an expectation for a QUOTE token
+ * - For the first `"`, an expectation for a QUOTE token (see
+ * [PangoroExpectedLixyToken])
  *
  * - For the string content in the middle, an expectation for a STRING_CONTENT
  * token.
@@ -30,12 +31,15 @@ class PangoroExpectedLixyToken(
         index: Int
     ): ExpectationResult = with(context) {
         val token = tokens[index]
-        if (tokens[index].tokenType == tokenType)
+        if (token.tokenType == tokenType)
             return ExpectationResult.Success(
                 if (storeValueIn == null) mapOf()
                 else mapOf(storeValueIn to token.string),
                 index + 1
             )
-        return ExpectationResult.DidNotMatch
+        return ExpectationResult.DidNotMatch(
+            "Expected token of type $tokenType, but encountered ${token.tokenType} instead",
+            index
+        )
     }
 }

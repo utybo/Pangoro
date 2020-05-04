@@ -56,12 +56,18 @@ fun List<PangoroExpectation>.apply(
     var index = startAt
     val map = mutableMapOf<String, Any>()
     forEach {
+        if(index >= context.tokens.size) {
+            return ExpectationResult.DidNotMatch(
+                "Expected more tokens, but ran out of tokens",
+                index
+            )
+        }
         val result = it.matches(context, index)
         if (result is ExpectationResult.Success) {
             map.putAll(result.stored)
             index = result.nextIndex
         } else {
-            return ExpectationResult.DidNotMatch
+            return result
         }
     }
     return ExpectationResult.Success(map, index)

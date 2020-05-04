@@ -16,18 +16,29 @@ import guru.zoroark.lixy.LixyToken
  */
 class PangoroParser<R : PangoroNode>(
     types: List<PangoroDescribedType>,
-    val rootType: PangoroNodeDeclaration<R>
+    private val rootType: PangoroNodeDeclaration<R>
 ) {
+    private val rootExpectation: PangoroExpectation =
+        PangoroExpectedNode(rootType, "root")
+
     private val typeMap: Map<PangoroNodeDeclaration<*>, PangoroDescribedType> =
         types.associateBy { it.type }
 
+    /**
+     * Launch the parser on the given tokens.
+     */
     fun parse(lixyTokens: List<LixyToken>): R {
-        val result = typeMap[rootType]!!.expectations.apply(
-            PangoroParsingContext(lixyTokens, typeMap)
+        val result = rootExpectation.matches(
+            PangoroParsingContext(lixyTokens, typeMap),
+            0
         )
-        if (result is ExpectationResult.Success)
-            return rootType.make(PangoroTypeDescription(result.stored))
-        else
-            error("Oops")
+        @Suppress("UNCHECKED_CAST")
+        return when (result) {
+            is ExpectationResult.DidNotMatch ->
+                throw PangoroException("Parsing failed: ${result.message} (token nb ${result.atTokenIndex})")
+            is ExpectationResult.Success ->
+                result.stored["root"] as? R
+                    ?: error("Internal Pangoro error: the root result was not stored. Please report this.")
+        }
     }
 }

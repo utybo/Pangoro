@@ -5,7 +5,7 @@ import guru.zoroark.lixy.matchers.matches
 import guru.zoroark.lixy.tokenType
 import guru.zoroark.pangoro.dsl.expect
 import guru.zoroark.pangoro.dsl.pangoro
-import kotlin.test.Test
+import kotlin.test.*
 
 class DslTest {
 
@@ -47,6 +47,11 @@ class DslTest {
         }
         val tokens = lexer.tokenize("123 + 4567")
         val ast = parser.parse(tokens)
-        println(ast)
+        assertEquals(
+            AdditionNode(
+                NumberNode("123"),
+                NumberNode("4567")
+            ), ast
+        )
     }
 }

@@ -23,7 +23,7 @@ kotlin {
         commonMain {
             dependencies {
                 implementation kotlin('stdlib')
-                api 'guru.zoroark.lixy:lixy:0dc3c44781'
+                api 'guru.zoroark.lixy:lixy:9055cff8f6'
             }
         }
         commonTest {

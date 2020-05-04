@@ -121,6 +121,7 @@ class ParserTest {
             ),
             AdditionNode
         )
-        println(parser.parse(tokens))
+        val ast = parser.parse(tokens)
+        assertEquals(AdditionNode(NumberNode("123"), NumberNode("4567")), ast)
     }
 }

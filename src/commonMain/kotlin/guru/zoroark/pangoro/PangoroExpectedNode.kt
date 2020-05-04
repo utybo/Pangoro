@@ -1,5 +1,8 @@
 package guru.zoroark.pangoro
 
+import guru.zoroark.pangoro.ExpectationResult.DidNotMatch
+import guru.zoroark.pangoro.ExpectationResult.Success
+
 /**
  * An expectation that expects another node to be present at this point.
  *
@@ -25,21 +28,21 @@ class PangoroExpectedNode(
     override fun matches(
         context: PangoroParsingContext,
         index: Int
-    ): ExpectationResult {
-        val describedNode = context.typeMap[node]!!
-        val result = describedNode.expectations.apply(context, index)
-        return if (result is ExpectationResult.Success) {
-            ExpectationResult.Success(
-                if (storeValueIn == null) mapOf()
-                else mapOf(
-                    storeValueIn to describedNode.type.make(
-                        PangoroTypeDescription(
-                            result.stored
+    ): ExpectationResult = context.typeMap[node]?.let { describedNode ->
+        when (val result = describedNode.expectations.apply(context, index)) {
+            is Success ->
+                Success(storeValueIn
+                    ?.to(
+                        describedNode.type.make(
+                            PangoroTypeDescription(result.stored)
                         )
                     )
-                ),
-                result.nextIndex
-            )
-        } else ExpectationResult.DidNotMatch
-    }
+                    ?.let { mapOf(it) }
+                    ?: mapOf(), result.nextIndex
+                )
+            is DidNotMatch -> result
+        }
+    } ?: throw PangoroException(
+        "Node ${node::class.qualifiedName} is expected but not declared in the parser"
+    )
 }
