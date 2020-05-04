@@ -1,6 +1,8 @@
-package guru.zoroark.pangoro
+package guru.zoroark.pangoro.expectations
 
 import guru.zoroark.lixy.LixyTokenType
+import guru.zoroark.pangoro.ExpectationResult
+import guru.zoroark.pangoro.PangoroParsingContext
 
 /**
  * An expectation that expects a token to be present at this point.

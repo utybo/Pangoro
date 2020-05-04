@@ -1,7 +1,7 @@
 package guru.zoroark.pangoro.dsl
 
 import guru.zoroark.lixy.Buildable
-import guru.zoroark.pangoro.PangoroExpectation
+import guru.zoroark.pangoro.expectations.PangoroExpectation
 
 /**
  * Simple builder for an expectation. The only real use of this class is to add

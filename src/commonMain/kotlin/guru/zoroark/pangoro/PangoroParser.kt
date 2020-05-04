@@ -1,6 +1,8 @@
 package guru.zoroark.pangoro
 
 import guru.zoroark.lixy.LixyToken
+import guru.zoroark.pangoro.expectations.PangoroExpectation
+import guru.zoroark.pangoro.expectations.PangoroExpectedNode
 
 /**
  * Class for a full parser that is ready to parse a chain of tokens.

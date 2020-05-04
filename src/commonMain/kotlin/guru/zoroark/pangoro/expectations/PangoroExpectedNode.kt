@@ -1,5 +1,6 @@
-package guru.zoroark.pangoro
+package guru.zoroark.pangoro.expectations
 
+import guru.zoroark.pangoro.*
 import guru.zoroark.pangoro.ExpectationResult.DidNotMatch
 import guru.zoroark.pangoro.ExpectationResult.Success
 
@@ -32,12 +33,11 @@ class PangoroExpectedNode(
         when (val result = describedNode.expectations.apply(context, index)) {
             is Success ->
                 Success(storeValueIn
-                    ?.to(
+                    ?.mappedWith(
                         describedNode.type.make(
                             PangoroTypeDescription(result.stored)
                         )
                     )
-                    ?.let { mapOf(it) }
                     ?: mapOf(), result.nextIndex
                 )
             is DidNotMatch -> result
@@ -46,3 +46,5 @@ class PangoroExpectedNode(
         "Node ${node::class.qualifiedName} is expected but not declared in the parser"
     )
 }
+
+private fun <T1, T2> T1.mappedWith(x: T2): Map<T1, T2> = mapOf(this to x)

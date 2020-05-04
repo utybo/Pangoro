@@ -3,7 +3,7 @@ package guru.zoroark.pangoro.dsl
 import guru.zoroark.lixy.Buildable
 import guru.zoroark.lixy.selfBuildable
 import guru.zoroark.pangoro.PangoroDescribedType
-import guru.zoroark.pangoro.PangoroExpectation
+import guru.zoroark.pangoro.expectations.PangoroExpectation
 import guru.zoroark.pangoro.PangoroNode
 import guru.zoroark.pangoro.PangoroNodeDeclaration
 

@@ -1,5 +1,7 @@
 package guru.zoroark.pangoro
 
+import guru.zoroark.pangoro.expectations.PangoroExpectation
+
 /**
  * A node type declaration (providing a way to make the actual type) with its
  * descriptor (which declares what the type expects).

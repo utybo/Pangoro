@@ -2,6 +2,9 @@ package guru.zoroark.pangoro
 
 import guru.zoroark.lixy.lixy
 import guru.zoroark.lixy.tokenType
+import guru.zoroark.pangoro.expectations.PangoroExpectation
+import guru.zoroark.pangoro.expectations.PangoroExpectedLixyToken
+import guru.zoroark.pangoro.expectations.apply
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue

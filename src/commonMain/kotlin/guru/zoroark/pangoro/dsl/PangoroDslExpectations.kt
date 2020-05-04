@@ -1,8 +1,8 @@
 package guru.zoroark.pangoro.dsl
 
 import guru.zoroark.lixy.LixyTokenType
-import guru.zoroark.pangoro.PangoroExpectedLixyToken
-import guru.zoroark.pangoro.PangoroExpectedNode
+import guru.zoroark.pangoro.expectations.PangoroExpectedLixyToken
+import guru.zoroark.pangoro.expectations.PangoroExpectedNode
 import guru.zoroark.pangoro.PangoroNode
 import guru.zoroark.pangoro.PangoroNodeDeclaration
 

@@ -3,6 +3,8 @@ package guru.zoroark.pangoro
 import guru.zoroark.lixy.lixy
 import guru.zoroark.lixy.matchers.matches
 import guru.zoroark.lixy.tokenType
+import guru.zoroark.pangoro.expectations.PangoroExpectedLixyToken
+import guru.zoroark.pangoro.expectations.PangoroExpectedNode
 import kotlin.test.*
 
 class ParserTest {

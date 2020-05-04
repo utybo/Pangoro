@@ -1,5 +1,6 @@
 package guru.zoroark.pangoro
 
+import guru.zoroark.pangoro.expectations.PangoroExpectedNode
 import kotlin.test.*
 
 class ExpectedNodeTest {

@@ -1,4 +1,7 @@
-package guru.zoroark.pangoro
+package guru.zoroark.pangoro.expectations
+
+import guru.zoroark.pangoro.ExpectationResult
+import guru.zoroark.pangoro.PangoroParsingContext
 
 /**
  * General class for an expectation.
