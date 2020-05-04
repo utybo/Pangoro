@@ -21,23 +21,16 @@ import guru.zoroark.pangoro.PangoroNodeDeclaration
 @PangoroDsl
 class PangoroDescriptorBuilder<T : PangoroNode>(
     private val typeDeclaration: PangoroNodeDeclaration<T>
-) : Buildable<PangoroDescribedType> {
+) : ExpectationReceiver, Buildable<PangoroDescribedType> {
     /**
      * List of the expectations that should be built.
      */
     private val expectations = mutableListOf<Buildable<PangoroExpectation>>()
 
     /**
-     * Add an expectation directly.
-     */
-    operator fun plusAssign(expectation: PangoroExpectation) {
-        expectations += expectation.selfBuildable()
-    }
-
-    /**
      * Add an expectation that will be built when the description gets built.
      */
-    operator fun plusAssign(expectationBuilder: Buildable<PangoroExpectation>) {
+    override operator fun plusAssign(expectationBuilder: Buildable<PangoroExpectation>) {
         expectations += expectationBuilder
     }
 
@@ -49,4 +42,25 @@ class PangoroDescriptorBuilder<T : PangoroNode>(
             typeDeclaration,
             expectations.map { it.build() })
     }
+}
+
+/**
+ * An expectation receiver is the receiver type for all `expect` DSL constructs.
+ * Use this if you want your own DSL to be able to have `expect` called on it.
+ */
+@PangoroDsl
+interface ExpectationReceiver {
+    /**
+     * Add a buildable expectation to this receiver -- the exact meaning of this
+     * depends on the implementation
+     */
+    operator fun plusAssign(expectationBuilder: Buildable<PangoroExpectation>)
+}
+
+/**
+ * Add an expectation directly instead of a builder. This is a shortcut for
+ * `this += expectation.selfBuildable()`
+ */
+operator fun ExpectationReceiver.plusAssign(expectation: PangoroExpectation) {
+    this += expectation.selfBuildable()
 }

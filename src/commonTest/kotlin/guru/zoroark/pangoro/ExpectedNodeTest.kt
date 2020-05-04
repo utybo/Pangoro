@@ -4,13 +4,13 @@ import guru.zoroark.pangoro.expectations.PangoroExpectedNode
 import kotlin.test.*
 
 class ExpectedNodeTest {
-    class One() : PangoroNode {
+    class One : PangoroNode {
         companion object : PangoroNodeDeclaration<One> {
             override fun make(args: PangoroTypeDescription): One = One()
         }
     }
 
-    class Two() : PangoroNode {
+    class Two : PangoroNode {
         companion object : PangoroNodeDeclaration<Two> {
             override fun make(args: PangoroTypeDescription): Two = Two()
         }

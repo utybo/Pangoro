@@ -28,6 +28,7 @@ class PangoroParserBuilder : Buildable<PangoroParser<*>> {
      * Similar to [invoke], but also signals that this node is the *root node*
      * of the constructed tree.
      */
+    @PangoroDsl
     infix fun <T : PangoroNode> PangoroNodeDeclaration<T>.root(block: PangoroDescriptorBuilder<T>.() -> Unit) {
         if (rootNodeType != null) {
             throw PangoroException("Another node was already defined as the root, ${this::class.qualifiedName} cannot also be a root.")

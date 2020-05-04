@@ -1,17 +1,17 @@
 package guru.zoroark.pangoro.dsl
 
 import guru.zoroark.lixy.LixyTokenType
+import guru.zoroark.pangoro.PangoroNodeDeclaration
 import guru.zoroark.pangoro.expectations.PangoroExpectedLixyToken
 import guru.zoroark.pangoro.expectations.PangoroExpectedNode
-import guru.zoroark.pangoro.PangoroNode
-import guru.zoroark.pangoro.PangoroNodeDeclaration
 
 /**
  * Adds an expectation to this node descriptor based on a token type.
  *
  * A token of the given token type is expected at this point.
  */
-infix fun <T : PangoroNode> PangoroDescriptorBuilder<T>.expect(tokenType: LixyTokenType): PangoroExpectationBuilder =
+@PangoroDsl
+infix fun ExpectationReceiver.expect(tokenType: LixyTokenType): PangoroExpectationBuilder =
     PangoroExpectationBuilder {
         PangoroExpectedLixyToken(tokenType, it)
     }.also {
@@ -24,7 +24,8 @@ infix fun <T : PangoroNode> PangoroDescriptorBuilder<T>.expect(tokenType: LixyTo
  * A chain of tokens that corresponds to the given node is expected at this
  * point
  */
-infix fun <T : PangoroNode> PangoroDescriptorBuilder<T>.expect(node: PangoroNodeDeclaration<*>): PangoroExpectationBuilder =
+@PangoroDsl
+infix fun ExpectationReceiver.expect(node: PangoroNodeDeclaration<*>): PangoroExpectationBuilder =
     PangoroExpectationBuilder {
         PangoroExpectedNode(node, it)
     }.also {

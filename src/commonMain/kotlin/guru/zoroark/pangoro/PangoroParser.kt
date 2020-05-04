@@ -34,6 +34,8 @@ class PangoroParser<R : PangoroNode>(
             PangoroParsingContext(lixyTokens, typeMap),
             0
         )
+        // TODO throw exception when result index != end of tokens
+        //      (i.e. we didn't parse everything)
         @Suppress("UNCHECKED_CAST")
         return when (result) {
             is ExpectationResult.DidNotMatch ->

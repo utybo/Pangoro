@@ -2,6 +2,8 @@ package guru.zoroark.pangoro.expectations
 
 import guru.zoroark.pangoro.ExpectationResult
 import guru.zoroark.pangoro.PangoroParsingContext
+import guru.zoroark.pangoro.PangoroTypeDescription
+import guru.zoroark.pangoro.PangoroNodeDeclaration
 
 /**
  * General class for an expectation.
@@ -29,12 +31,21 @@ import guru.zoroark.pangoro.PangoroParsingContext
  * through the [PangoroTypeDescription]'s
  * [arguments][PangoroTypeDescription.arguments] and are passed using the [make
  * function][PangoroNodeDeclaration.make] in the [PangoroNodeDeclaration].
+ *
+ * If [storeValueIn] is `null`, that means that:
+ *
+ * - this expectation cannot store value (it does not "emit" anything, like the
+ * `either` construct which just executes branches and picks the first result),
+ * or
+ *
+ * - this expectation can store values but we do not want to store it for this
+ * expectation
  */
 abstract class PangoroExpectation(
     /**
      * The name of the argument where the result of this expectation should be
-     * stored, or `null` if the matched value of this expectation should not be
-     * stored.
+     * stored, or `null` if the matched value of this expectation should not or
+     * cannot be stored.
      */
     val storeValueIn: String? = null
 ) {
