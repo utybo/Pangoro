@@ -1,6 +1,7 @@
 package guru.zoroark.pangoro.dsl
 
 import guru.zoroark.lixy.Buildable
+import guru.zoroark.lixy.LixyTokenType
 import guru.zoroark.lixy.selfBuildable
 import guru.zoroark.pangoro.PangoroDescribedType
 import guru.zoroark.pangoro.expectations.PangoroExpectation
@@ -55,6 +56,18 @@ interface ExpectationReceiver {
      * depends on the implementation
      */
     operator fun plusAssign(expectationBuilder: Buildable<PangoroExpectation>)
+
+    /**
+     * Concise notation for the [expect] function.
+     */
+    operator fun LixyTokenType.unaryPlus() =
+        expect(this)
+
+    /**
+     * Concise notation for the [expect] function.
+     */
+    operator fun PangoroNodeDeclaration<*>.unaryPlus() =
+        expect(this)
 }
 
 /**

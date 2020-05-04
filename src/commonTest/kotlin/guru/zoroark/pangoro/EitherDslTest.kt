@@ -40,8 +40,6 @@ data class Number(
 }
 
 class EitherDslTest {
-
-
     @Test
     fun test_either_dsl() {
         // Operation parser
@@ -75,6 +73,64 @@ class EitherDslTest {
                 expect(Expression) storeIn "left"
                 expect(tOperator) storeIn "op"
                 expect(Expression) storeIn "right"
+            }
+        }
+        val str = "((3+4)/(1+(3-1)))"
+        assertEquals(
+            Operation(
+                Operation(
+                    Number("3"),
+                    "+",
+                    Number("4")
+                ),
+                "/",
+                Operation(
+                    Number("1"),
+                    "+",
+                    Operation(
+                        Number("3"),
+                        "-",
+                        Number("1")
+                    )
+                )
+            ),
+            parser.parse(lexer.tokenize(str))
+        )
+    }
+
+    @Test
+    fun test_either_dsl_short_notation() {
+        // Operation parser
+
+        val tOperator = tokenType("tOperator")
+        val tNumber = tokenType("tNumber")
+        val tOpenPar = tokenType("tOpenPar")
+        val tClosePar = tokenType("tClosePar")
+        val lexer = lixy {
+            state {
+                anyOf("+", "-", "/", "*") isToken tOperator
+                ('0'..'9').repeated isToken tNumber
+                "(" isToken tOpenPar
+                ")" isToken tClosePar
+            }
+        }
+        val parser = pangoro {
+            Expression root {
+                either {
+                    +Number storeIn "expr"
+                } or {
+                    +tOpenPar
+                    +Operation storeIn "expr"
+                    +tClosePar
+                }
+            }
+            Number {
+                +tNumber storeIn "value"
+            }
+            Operation {
+                +Expression storeIn "left"
+                +tOperator storeIn "op"
+                +Expression storeIn "right"
             }
         }
         val str = "((3+4)/(1+(3-1)))"
