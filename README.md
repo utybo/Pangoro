@@ -1,5 +1,8 @@
 # [![Pangoro](https://zoroark.guru/img/pangoro.png)](http://pokemondb.net/pokedex/pangoro) Pangoro, the parser with a nice Kotlin DSL
 
+[![Actions Status](https://img.shields.io/github/workflow/status/utybo/Pangoro/Tests?style=for-the-badge&logo=github&label=tests)](https://github.com/utybo/Pangoro/actions)
+[![Code Climate coverage](https://img.shields.io/codeclimate/coverage/utybo/Pangoro?style=for-the-badge&logo=Code-Climate)](https://codeclimate.com/github/utybo/Pangoro/test_coverage)
+[![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/utybo/Pangoro?style=for-the-badge&logo=Code-Climate)](https://codeclimate.com/github/utybo/Pangoro/maintainability)
 ![Made with Kotlin](https://img.shields.io/badge/Made%20with-Kotlin-blue?logo=Kotlin&style=for-the-badge)
 
 ![Experimental](https://img.shields.io/badge/Stage-Experimental-red?style=flat-square) [![Release](https://jitpack.io/v/guru.zoroark/pangoro.svg?style=flat-square)](https://jitpack.io/#guru.zoroark/pangoro) Pangoro is under active development.
