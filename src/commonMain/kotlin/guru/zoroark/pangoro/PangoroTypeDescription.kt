@@ -20,7 +20,7 @@ class PangoroTypeDescription(
         if (value is T) {
             return value // Auto-cast by Kotlin
         } else {
-            throw PangoroException("Expected $str to be of type ${T::class.qualifiedName}, but it is actually of type ${value::class.qualifiedName}")
+            throw PangoroException("Expected $str to be of type ${T::class}, but it is actually of type ${value::class}")
         }
     }
 }

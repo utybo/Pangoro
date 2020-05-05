@@ -10,7 +10,7 @@ import kotlin.test.*
 class DslTest {
 
     data class NumberNode(val value: String) : PangoroNode {
-        companion object : PangoroNodeDeclaration<NumberNode> by reflective() {
+        companion object : PangoroNodeDeclaration<NumberNode> {
             override fun make(args: PangoroTypeDescription): NumberNode =
                 NumberNode(args["value"])
         }
@@ -25,7 +25,7 @@ class DslTest {
     }
 
     @Test
-    fun `Addition parser DSL test`() {
+    fun addition_parser_DSL_test() {
         val tokenNumber = tokenType()
         val tokenPlus = tokenType()
         val lexer = lixy {
@@ -70,7 +70,7 @@ class DslTest {
         }.apply {
             val msg = message
             assertNotNull(msg)
-            assertTrue(msg.contains("NumberNode") && msg.contains("already"))
+            assertTrue(msg.containsJvm("NumberNode") && msg.contains("already"))
         }
     }
 

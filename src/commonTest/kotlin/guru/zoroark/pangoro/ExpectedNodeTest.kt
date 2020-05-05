@@ -17,7 +17,7 @@ class ExpectedNodeTest {
     }
 
     @Test
-    fun `Test undefined expected node fails`() {
+    fun test_undefined_expected_node_fails() {
         val exp = PangoroExpectedNode(Two, null)
         assertFailsWith<PangoroException> {
             exp.matches(
@@ -31,14 +31,14 @@ class ExpectedNodeTest {
             val msg = message
             assertNotNull(msg)
             assertTrue(
-                msg.contains("Two") && msg.contains("declared"),
+                msg.containsJvm("Two") && msg.contains("declared"),
                 "Expected 'Two' and 'declared' in exception message $msg"
             )
         }
     }
 
     @Test
-    fun `Test successful`() {
+    fun test_successful() {
         val exp = PangoroExpectedNode(Two, "yeet")
         val res = exp.matches(
             PangoroParsingContext(

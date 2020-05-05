@@ -24,7 +24,7 @@ class ParserTest {
     }
 
     @Test
-    fun `Storing parser test`() {
+    fun storing_parser_test() {
         val tokenOne = tokenType()
         val parser = PangoroParser(
             types = listOf(
@@ -58,7 +58,7 @@ class ParserTest {
     }
 
     @Test
-    fun `Basic parser test`() {
+    fun basic_parser_test() {
         val token = tokenType()
         val parser = PangoroParser(
             types = listOf(
@@ -96,7 +96,7 @@ class ParserTest {
     }
 
     @Test
-    fun `Addition parser test`() {
+    fun addition_parser_test() {
         val tokenNumber = tokenType()
         val tokenPlus = tokenType()
         val lexer = lixy {

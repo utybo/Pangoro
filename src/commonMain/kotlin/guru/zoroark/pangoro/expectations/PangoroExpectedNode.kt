@@ -43,7 +43,7 @@ class PangoroExpectedNode(
             is DidNotMatch -> result
         }
     } ?: throw PangoroException(
-        "Node ${node::class.qualifiedName} is expected but not declared in the parser"
+        "Node ${node::class} is expected but not declared in the parser"
     )
 }
 

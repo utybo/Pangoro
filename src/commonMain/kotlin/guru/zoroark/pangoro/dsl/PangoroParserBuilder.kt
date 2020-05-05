@@ -18,7 +18,7 @@ class PangoroParserBuilder : Buildable<PangoroParser<*>> {
      */
     operator fun <T : PangoroNode> PangoroNodeDeclaration<T>.invoke(block: PangoroDescriptorBuilder<T>.() -> Unit) {
         if (this in knownDeclarations) {
-            throw PangoroException("The node declaration ${this::class.qualifiedName} was already described elsewhere: you cannot describe it twice.")
+            throw PangoroException("The node declaration ${this::class} was already described elsewhere: you cannot describe it twice.")
         }
         builtTypeDef += PangoroDescriptorBuilder(this).apply(block).build()
         knownDeclarations += this
@@ -31,7 +31,7 @@ class PangoroParserBuilder : Buildable<PangoroParser<*>> {
     @PangoroDsl
     infix fun <T : PangoroNode> PangoroNodeDeclaration<T>.root(block: PangoroDescriptorBuilder<T>.() -> Unit) {
         if (rootNodeType != null) {
-            throw PangoroException("Another node was already defined as the root, ${this::class.qualifiedName} cannot also be a root.")
+            throw PangoroException("Another node was already defined as the root, ${this::class} cannot also be a root.")
         }
         this(block)
         rootNodeType = this

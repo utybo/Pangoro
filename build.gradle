@@ -43,5 +43,15 @@ kotlin {
                 implementation kotlin('test-junit')
             }
         }
+        jsMain {
+            dependencies {
+                implementation kotlin('stdlib-js')
+            }
+        }
+        jsTest {
+            dependencies {
+                implementation kotlin('test-js')
+            }
+        }
     }
 }
