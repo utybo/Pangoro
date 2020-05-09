@@ -56,6 +56,37 @@ class DslTest {
     }
 
     @Test
+    fun addition_parser_DSL_short_test() {
+        val tokenNumber = tokenType()
+        val tokenPlus = tokenType()
+        val lexer = lixy {
+            state {
+                matches("\\d+") isToken tokenNumber
+                "+" isToken tokenPlus
+                " ".ignore
+            }
+        }
+        val parser = pangoro {
+            NumberNode {
+                +tokenNumber % "value"
+            }
+            AdditionNode root {
+                +NumberNode % "first"
+                +tokenPlus
+                +NumberNode % "second"
+            }
+        }
+        val tokens = lexer.tokenize("123 + 4567")
+        val ast = parser.parse(tokens)
+        assertEquals(
+            AdditionNode(
+                NumberNode("123"),
+                NumberNode("4567")
+            ), ast
+        )
+    }
+
+    @Test
     fun cannot_declare_same_type_twice() {
         val token = tokenType()
         assertFailsWith<PangoroException> {
