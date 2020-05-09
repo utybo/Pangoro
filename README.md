@@ -8,6 +8,8 @@
 
 ![Experimental](https://img.shields.io/badge/Stage-Experimental-red?style=flat-square) [![Release](https://jitpack.io/v/guru.zoroark/pangoro.svg?style=flat-square)](https://jitpack.io/#guru.zoroark/pangoro) Pangoro is under active development.
 
+[**>>> Documentation <<<**](https://docs.zoroark.guru/#/pangoro/)
+
 Pangoro is a parser intended for use with the [Lixy](https://github.com/utybo/Lixy) lexer, although it can also work with anything, provided that you convert your tokens into Lixy tokens.
 
 ```kotlin
