@@ -40,6 +40,12 @@ import guru.zoroark.pangoro.PangoroNodeDeclaration
  *
  * - this expectation can store values but we do not want to store it for this
  * expectation
+ *
+ * Parser algorithms assume that expectations always expect some tokens to be
+ * present (e.g. if we run out of tokens, we fail immediately instead of letting
+ * the expectation crash). If the expectation can handle situations where there
+ * are not enough tokens, then it should implement the [HandlesTokenDrought]
+ * marker interface.
  */
 abstract class PangoroExpectation(
     /**
@@ -52,6 +58,10 @@ abstract class PangoroExpectation(
     /**
      * Check if this expectation matches the given context at the given index
      * among the [context's tokens list][PangoroParsingContext.tokens].
+     *
+     * The index is guaranteed to be in the bounds of the context's tokens,
+     * unless the expectation signals that it can handle OOB tokens (i.e. it
+     * implements [HandlesTokenDrought]).
      */
     abstract fun matches(
         context: PangoroParsingContext,
@@ -70,7 +80,7 @@ fun List<PangoroExpectation>.apply(
     var index = startAt
     val map = mutableMapOf<String, Any>()
     forEach {
-        if(index >= context.tokens.size) {
+        if(index >= context.tokens.size && it !is HandlesTokenDrought) {
             return ExpectationResult.DidNotMatch(
                 "Expected more tokens, but ran out of tokens",
                 index
@@ -86,3 +96,11 @@ fun List<PangoroExpectation>.apply(
     }
     return ExpectationResult.Success(map, index)
 }
+
+/**
+ * When an expectation is also of type HandlesTokenDrought, it means that the
+ * expectation should be called even when running out of tokens.
+ *
+ * Marker interface: does not require you to implement anything.
+ */
+interface HandlesTokenDrought

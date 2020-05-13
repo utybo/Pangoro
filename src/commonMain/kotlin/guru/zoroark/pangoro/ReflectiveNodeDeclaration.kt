@@ -1,7 +1,6 @@
 package guru.zoroark.pangoro
 
 import kotlin.reflect.KClass
-import kotlin.reflect.KFunction
 
 /**
  * Creates a node declaration that uses reflection to initialize instances of

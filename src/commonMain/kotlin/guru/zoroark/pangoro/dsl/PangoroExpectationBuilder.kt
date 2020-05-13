@@ -18,6 +18,9 @@ class PangoroExpectationBuilder(private val builderFunc: (String?) -> PangoroExp
         storeIn = argName
     }
 
+    /**
+     * Short notation for [storeIn].
+     */
     operator fun rem(argName: String) {
         storeIn = argName
     }
