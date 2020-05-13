@@ -10,9 +10,15 @@ import guru.zoroark.pangoro.dsl.pangoro
 
 class OptionalDslTest {
 
-    data class Decimal(val intPart: String, val decPart: String? = null)
-        : PangoroNode {
-        companion object : PangoroNodeDeclaration<Decimal> by reflective()
+    data class Decimal(val intPart: String, val decPart: String? = null) :
+        PangoroNode {
+        companion object : PangoroNodeDeclaration<Decimal> {
+            override fun make(args: PangoroTypeDescription) =
+                if (args.arguments.containsKey("decPart"))
+                    Decimal(args["intPart"], args["decPart"])
+                else
+                    Decimal(args["intPart"])
+        }
     }
 
     @Test
