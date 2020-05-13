@@ -55,4 +55,50 @@ class TestReflectiveNodeDeclaration {
             assertTrue(msg.contains("Could not find"))
         }
     }
+
+    data class OptionalConstructor(
+        val first: String, val e: Char, val optSecond: Int = 42
+    ) : PangoroNode {
+        companion object :
+            PangoroNodeDeclaration<OptionalConstructor> by reflective()
+    }
+
+    @Test
+    fun reflective_node_declaration_with_optional_params() {
+        val result = OptionalConstructor.make(
+            PangoroTypeDescription(
+                mapOf(
+                    "first" to "Hello",
+                    "e" to 'E'
+                )
+            )
+        )
+        assertEquals(OptionalConstructor("Hello", 'E'), result)
+    }
+
+    data class MultiOptionalConstructor(
+        val first: String, val second: Char, val third: List<String> = listOf()
+    ) : PangoroNode {
+        constructor(
+            second: Char,
+            first: String = "Heyy",
+            third: List<String> = listOf()
+        ) : this("Second ctor $first", second, listOf("Hello"))
+
+        companion object :
+            PangoroNodeDeclaration<MultiOptionalConstructor> by reflective()
+    }
+
+    @Test
+    fun reflective_node_declaration_prefer_least_optional() {
+        val result = MultiOptionalConstructor.make(
+            PangoroTypeDescription(
+                mapOf(
+                    "first" to "HELLO",
+                    "second" to 'X'
+                )
+            )
+        )
+        assertEquals(MultiOptionalConstructor("HELLO", 'X', listOf()), result)
+    }
 }

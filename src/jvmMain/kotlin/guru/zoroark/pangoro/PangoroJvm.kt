@@ -2,6 +2,9 @@ package guru.zoroark.pangoro
 
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
+import kotlin.reflect.KParameter
+import kotlin.reflect.full.isSubtypeOf
+import kotlin.reflect.full.starProjectedType
 
 /**
  * An implementation of [PangoroNodeDeclaration] that uses reflection to
@@ -21,17 +24,34 @@ actual class ReflectiveNodeDeclaration<T : PangoroNode> actual constructor(
     PangoroNodeDeclaration<T> {
     actual override fun make(args: PangoroTypeDescription): T {
         val ctor = findValidConstructor(args.arguments)
+        // TODO Better error messages on reflection errors
         val callArgs =
-            ctor.parameters.map { args.arguments[it.name] }.toTypedArray()
-        return ctor.call(*callArgs)
+            ctor.parameters
+                .filter { args.arguments.containsKey(it.name) }
+                .associateWith { args.arguments[it.name]!! }
+        return ctor.callBy(callArgs)
     }
 
     private fun findValidConstructor(arguments: Map<String, Any>): KFunction<T> {
-        return tClass.constructors.firstOrNull {
-            it.parameters.all { param -> arguments.containsKey(param.name) }
+        return tClass.constructors.filter {
+            // All parameters have a value in the map (except for optional parameters)
+            // with a compatible type
+            it.parameters.all { param ->
+                val matchingArg =
+                    arguments[param.name] ?: return@all param.isOptional
+                param.isCompatibleWith(matchingArg)
+            }
+        }.maxBy {
+            // Pick the constructor with the most non-optional parameters
+            it.parameters.filter { param -> !param.isOptional }.count()
         } ?: throw PangoroException(
-            "Could not find a constructor that used keys " +
-                    arguments.keys.joinToString(", ")
+            "Could not find a constructor that uses keys " +
+                    arguments.entries.joinToString(", ") { (k, v) ->
+                        "$k{${v::class.qualifiedName}}"
+                    }
         )
     }
 }
+
+private fun KParameter.isCompatibleWith(matchingArg: Any): Boolean =
+    matchingArg::class.starProjectedType.isSubtypeOf(type)
